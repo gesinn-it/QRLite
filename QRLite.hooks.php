@@ -23,8 +23,8 @@ class QRLiteHooks {
 	/**
 	 * Wrapper for the #qrlite parser function
 	 *
-	 * @param $parser
-	 * @param $main
+	 * @param \Parser $parser
+	 * @param string $main
 	 *
 	 * @return array
 	 */
