@@ -9,6 +9,9 @@
 	],
 	"homepage": "https://www.mediawiki.org/wiki/Extension:QRLite",
 	"license": "GPL-2.0-or-later",
+	"extra" : {
+		"installer-name": "QRLite"
+	},
 	"require": {
 		"composer/installers": ">=1.0.1",
 		"endroid/qr-code": "^4.6"
