@@ -1,6 +1,12 @@
 <?php
 
-require_once "lib/phpqrcode/qrlib.php";
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelMedium;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelQuartile;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Writer\SvgWriter;
 
 /**
  * The actual QRLite Functions
@@ -14,7 +20,10 @@ require_once "lib/phpqrcode/qrlib.php";
 class QRLiteFunctions {
 
 	public static function generateQRCode( $params = [] ) {
-		global $wgTmpDirectory;
+		// Dependency check.
+		if ( !class_exists( QrCode::class ) ) {
+			return Html::errorBox( 'QRLite error: QrCode class not found, you may need to run "composer install".' );
+		}
 
 		// Defaults and escaping
 		$content = self::paramGet( $params, 'prefix', '___MAIN___' );
@@ -24,51 +33,42 @@ class QRLiteFunctions {
 		$size = self::paramGet( $params, 'size', 6 );
 		$margin = self::paramGet( $params, 'margin', 0 );
 
-		$ecc = self::paramGet( $params, 'ecc', 2 );
+		$ecc = (int)self::paramGet( $params, 'ecc', 2 );
 
 		// TODO: Doesn't seem to work
-		$eccLevel = QR_ECLEVEL_M;
+		$eccLevel = new ErrorCorrectionLevelMedium();
 		if ( $ecc === 1 ) {
-			$eccLevel = QR_ECLEVEL_L;
+			$eccLevel = new ErrorCorrectionLevelLow();
 		} else {
 			if ( $ecc === 2 ) {
-				$eccLevel = QR_ECLEVEL_M;
+				$eccLevel = new ErrorCorrectionLevelMedium();
 			} else {
 				if ( $ecc === 3 ) {
-					$eccLevel = QR_ECLEVEL_Q;
+					$eccLevel = new ErrorCorrectionLevelQuartile();
 				} else {
 					if ( $ecc === 4 ) {
-						$eccLevel = QR_ECLEVEL_H;
+						$eccLevel = new ErrorCorrectionLevelHigh();
 					}
 				}
 			}
 		}
 
 		$image = '';
-
 		try {
+			$qrCode = new QrCode( $content );
+			$qrCode->setSize( $size * 30 );
+			$qrCode->setMargin( $margin );
+			$qrCode->setErrorCorrectionLevel( $eccLevel );
+			$writer = $format === 'svg' ? new SvgWriter() : new PngWriter();
+			$writerOptions = [
+				SvgWriter::WRITER_OPTION_EXCLUDE_XML_DECLARATION => true
+			];
+			$result = $writer->write( $qrCode, null, null, $writerOptions );
+
 			if ( $format === 'svg' ) {
-				// Create a temporary svg file, as the library would otherwise print the result to the page itself
-				$tempFileName = tempnam( $wgTmpDirectory, "SVGLite_" ) . '.svg';
-				QRcode::svg( $content, $tempFileName, $eccLevel, $size, $margin );
-				$svgContent = file_get_contents( $tempFileName );
-
-				unlink( $tempFileName );
-				$image = '<span class="svg-container" title="' . $content . '">' . $svgContent . '</span>';
+				$image = '<span class="svg-container" title="' . $content . '">' . $result->getString() . '</span>';
 			} else {
-				if ( $format === 'png' ) {
-					$tempFileName = tempnam( $wgTmpDirectory, "SVGLite_" ) . '.png';
-					QRcode::png( $content, $tempFileName, $eccLevel, $size, $margin );
-					$pngContent = file_get_contents( $tempFileName );
-
-					// Delete temporary files
-					foreach ( glob( $wgTmpDirectory . "/SVGLite_*" ) as $filename ) {
-						unlink( $filename );
-					}
-					$image =
-						'<img src="data:image/png;base64,' . base64_encode( $pngContent ) . '" alt="' . $content .
-						'" title="' . $content . '">';
-				}
+				$image = Html::element( 'img', [ 'src' => $result->getDataUri(), 'title' => $content ] );
 			}
 		} catch ( Exception $e ) {
 			$image = '<span class="error-message">' . $e->getMessage() . '</span>';
