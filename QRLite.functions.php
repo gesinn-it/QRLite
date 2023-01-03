@@ -70,8 +70,7 @@ class QRLiteFunctions {
 						'" title="' . $content . '">';
 				}
 			}
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			$image = '<span class="error-message">' . $e->getMessage() . '</span>';
 
 		}
@@ -107,7 +106,7 @@ class QRLiteFunctions {
 	/**
 	 * Debug function that converts an object/array to a <pre> wrapped pretty printed JSON string
 	 *
-	 * @param $obj
+	 * @param mixed $obj
 	 * @return string
 	 */
 	public static function toJSON( $obj ) {
