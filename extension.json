@@ -1,6 +1,6 @@
 {
   "name": "QRLite",
-  "version": "0.3.5",
+  "version": "1.0.0-alpha",
   "author": [
     "Simon Heimler (gesinn.it GmbH & Co. KG)",
     "Alexander Gesinn (gesinn.it GmbH & Co. KG)"
@@ -26,6 +26,5 @@
       "QRLiteHooks::onParserFirstCallInit"
     ]
   },
-  "load_composer_autoloader": true,
   "manifest_version": 1
 }
