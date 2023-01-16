@@ -8,6 +8,9 @@ The extension is very lightweight, as it does not upload or manage the images wi
 ## Built With
 * [PHP QR Code](https://sourceforge.net/projects/phpqrcode/) - Create QR Codes in PHP
 
+## Testing
+`> make ci`
+
 ## Versioning
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/gesinn-it/QRLite/tags).
 
