@@ -8,7 +8,13 @@ The extension is very lightweight, as it does not upload or manage the images wi
 ## Built With
 * [PHP QR Code](https://sourceforge.net/projects/phpqrcode/) - Create QR Codes in PHP
 
+## Contributing
+We are happy to receive pull requests. Before you commit your changes, make sure all tests are passing (see below).
+
 ## Testing
+Local testing and CI are supported by Docker and Make. Ensure, both tools are installed (`docker --version`, `make --version`).
+
+To run test locally:
 `> make ci`
 
 ## Versioning
