@@ -26,7 +26,7 @@ build:
 		.
 
 .PHONY: test
-test: composer-test
+test: composer-test npm-test
 
 .PHONY: test-coverage
 test-coverage: composer-test-coverage
@@ -34,6 +34,10 @@ test-coverage: composer-test-coverage
 .PHONY: composer-test
 composer-test:
 	$(docker_run) composer test
+
+.PHONY: npm-test
+npm-test:
+	$(docker_run) npm run test
 
 .PHONY: composer-test-coverage
 composer-test-coverage:

@@ -1,31 +1,31 @@
 {
-  "name": "QRLite",
-  "version": "1.0.0-alpha4",
-  "author": [
-    "Simon Heimler (gesinn.it GmbH & Co. KG)",
-    "Alexander Gesinn (gesinn.it GmbH & Co. KG)"
-  ],
-  "url": "https://github.com/gesinn-it/QRLite",
-  "descriptionmsg": "qrlite-desc",
-  "license-name": "GPL-3.0-or-later",
-  "type": "other",
-  "AutoloadClasses": {
-    "QRLiteHooks": "QRLite.hooks.php",
-    "QRLiteFunctions": "QRLite.functions.php"
-  },
-  "ExtensionMessagesFiles": {
-    "QRLiteMagic": "QRLite.i18n.magic.php"
-  },
-  "MessagesDirs": {
-    "QRLite": [
-      "i18n"
-    ]
-  },
-  "Hooks": {
-    "ParserFirstCallInit": [
-      "QRLiteHooks::onParserFirstCallInit"
-    ]
-  },
-  "load_composer_autoloader": true,
-  "manifest_version": 1
+	"name": "QRLite",
+	"version": "1.0.0-alpha4",
+	"author": [
+		"Simon Heimler (gesinn.it GmbH & Co. KG)",
+		"Alexander Gesinn (gesinn.it GmbH & Co. KG)"
+	],
+	"url": "https://github.com/gesinn-it/QRLite",
+	"descriptionmsg": "qrlite-desc",
+	"license-name": "GPL-3.0-or-later",
+	"type": "other",
+	"AutoloadClasses": {
+		"QRLiteHooks": "QRLite.hooks.php",
+		"QRLiteFunctions": "QRLite.functions.php"
+	},
+	"ExtensionMessagesFiles": {
+		"QRLiteMagic": "QRLite.i18n.magic.php"
+	},
+	"MessagesDirs": {
+		"QRLite": [
+			"i18n"
+		]
+	},
+	"Hooks": {
+		"ParserFirstCallInit": [
+			"QRLiteHooks::onParserFirstCallInit"
+		]
+	},
+	"load_composer_autoloader": true,
+	"manifest_version": 1
 }
