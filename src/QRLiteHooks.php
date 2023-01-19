@@ -1,21 +1,25 @@
 <?php
 
+namespace MediaWiki\Extension\QRLite;
+
+use MediaWiki\Hook\ParserFirstCallInitHook;
+
 /**
  * Hooks for QRLite extension
  *
  * @file
  * @ingroup Extensions
  */
-class QRLiteHooks {
+class QRLiteHooks implements ParserFirstCallInitHook {
 
 	/**
 	 * Register parser hooks
 	 *
 	 * See also http://www.mediawiki.org/wiki/Manual:Parser_functions
 	 */
-	public static function onParserFirstCallInit( &$parser ) {
+	public function onParserFirstCallInit( $parser ) {
 		// Register parser functions
-		$parser->setFunctionHook( 'qrlite', 'QRLiteHooks::qrliteFunctionHook' );
+		$parser->setFunctionHook( 'qrlite', [ $this, 'qrliteFunctionHook' ] );
 
 		return true;
 	}
