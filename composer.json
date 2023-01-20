@@ -4,12 +4,12 @@
 	"description": "QRLite is a MediaWiki extension that renders QR Codes in SVG or PNG format",
 	"keywords": [
 		"Extension",
-	 	"Wiki",
+		"Wiki",
 		"MediaWiki"
 	],
 	"homepage": "https://www.mediawiki.org/wiki/Extension:QRLite",
 	"license": "GPL-2.0-or-later",
-	"extra" : {
+	"extra": {
 		"installer-name": "QRLite"
 	},
 	"require": {
