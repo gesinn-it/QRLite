@@ -1,3 +1,5 @@
+[![CI](https://github.com/gesinn-it/QRLite/actions/workflows/ci.yml/badge.svg)](https://github.com/gesinn-it/QRLite/actions/workflows/ci.yml)
+
 # QRLite
 QRLite is a MediaWiki extension that generates QR Codes in SVG or PNG format on-the-fly.
 The extension is very lightweight, as it does not upload or manage the images within MediaWiki.
