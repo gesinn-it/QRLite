@@ -9,9 +9,11 @@
 	"descriptionmsg": "qrlite-desc",
 	"license-name": "GPL-3.0-or-later",
 	"type": "other",
-	"AutoloadClasses": {
-		"QRLiteHooks": "QRLite.hooks.php",
-		"QRLiteFunctions": "QRLite.functions.php"
+	"requires": {
+		"MediaWiki": ">= 1.35"
+	},
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\QRLite\\": "./src/"
 	},
 	"ExtensionMessagesFiles": {
 		"QRLiteMagic": "QRLite.i18n.magic.php"
@@ -22,9 +24,12 @@
 		]
 	},
 	"Hooks": {
-		"ParserFirstCallInit": [
-			"QRLiteHooks::onParserFirstCallInit"
-		]
+		"ParserFirstCallInit": "QRLite"
+	},
+	"HookHandlers": {
+		"QRLite": {
+			"class": "MediaWiki\\Extension\\QRLite\\QRLiteHooks"
+		}
 	},
 	"load_composer_autoloader": true,
 	"manifest_version": 1
