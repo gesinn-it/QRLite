@@ -16,6 +16,9 @@ class QRLiteHooks implements ParserFirstCallInitHook {
 	 * Register parser hooks
 	 *
 	 * See also http://www.mediawiki.org/wiki/Manual:Parser_functions
+	 *
+	 * @param Parser $parser Parser object being initialised
+	 * @return bool|void True or no return value to continue or false to abort
 	 */
 	public function onParserFirstCallInit( $parser ) {
 		// Register parser functions

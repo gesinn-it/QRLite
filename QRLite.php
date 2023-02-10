@@ -12,7 +12,7 @@
  */
 
 // Don't run in CLI mode (maintenance scripts)
-if ( php_sapi_name() == "cli" ) {
+if ( PHP_SAPI === "cli" ) {
 	wfDebugLog( 'QRLite', "[QRLite] Skipping in CLI Mode" );
 	return false;
 }
@@ -24,7 +24,8 @@ if ( function_exists( 'wfLoadExtension' ) ) {
 	// Keep i18n globals so mergeMessageFileList.php doesn't break
 	$wgMessagesDirs['QRLite'] = __DIR__ . '/i18n';
 
-	wfWarn( 'Deprecated PHP entry point used for the QRLite extension. Please use wfLoadExtension("QRLite"); instead, ' .
+	wfWarn( 'Deprecated PHP entry point used for the QRLite extension. ' .
+			'Please use wfLoadExtension("QRLite"); instead, ' .
 			'see https://www.mediawiki.org/wiki/Extension_registration for more details.' );
 	return;
 

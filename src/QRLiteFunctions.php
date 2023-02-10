@@ -23,6 +23,10 @@ use Html;
  */
 class QRLiteFunctions {
 
+	/**
+	 * @param array $params
+	 * @return string HTML for display of the QR code.
+	 */
 	public static function generateQRCode( $params = [] ) {
 		// Dependency check.
 		if ( !class_exists( QrCode::class ) ) {
