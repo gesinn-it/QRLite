@@ -4,5 +4,10 @@
 			"Fannon"
 		]
 	},
-	"qrlite-desc": "Generates QRCodes in .png or .svg format on-the-fly."
+	"qrlite-desc": "Generates QRCodes in .png or .svg format on-the-fly.",
+	"qrcodes": "QR Codes",
+	"qrlite-specialpage-url-label": "URL",
+	"qrlite-specialpage-url-help": "Enter a URL for which to create a QR Code.",
+	"qrlite-specialpage-size-label": "Size",
+	"qrlite-specialpage-size-help": "The rendered size will be 30 times this number, in pixels."
 }
