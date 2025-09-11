@@ -35,9 +35,9 @@ class QRLiteHooks implements ParserFirstCallInitHook {
 	 *
 	 * @return array
 	 */
-	public static function qrliteFunctionHook( $parser, $main ) {
+	public function qrliteFunctionHook( $parser, $main ) {
 		$args = array_slice( func_get_args(), 2 );
-		$params = self::extractOptions( $args );
+		$params = $this->extractOptions( $args );
 
 		// If the prefix is not set as key-value, but the first parameter is set
 		// Use it as prefix (short form)
@@ -45,9 +45,9 @@ class QRLiteHooks implements ParserFirstCallInitHook {
 			$params['prefix'] = $main;
 		}
 
-		$id = QRLiteFunctions::generateQRCode( $params );
+		$html = QRLiteFunctions::generateQRCode( $params );
 
-		return [ $id, 'noparse' => true, 'isHTML' => true ];
+		return [ $html, 'noparse' => true, 'isHTML' => true ];
 	}
 
 	/**
@@ -57,7 +57,7 @@ class QRLiteHooks implements ParserFirstCallInitHook {
 	 * @param array $options
 	 * @return array $results
 	 */
-	private static function extractOptions( array $options ) {
+	private function extractOptions( array $options ) {
 		$results = [];
 
 		foreach ( $options as $option ) {
