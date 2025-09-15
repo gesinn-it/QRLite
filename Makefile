@@ -16,6 +16,11 @@ DB_TYPE?=mysql
 DB_IMAGE?="mysql:5.7"
 
 # extensions
+# Enables installation of apt packages for gd extension
+OS_PACKAGES?="zlib1g-dev libpng-dev"
+
+# Enables installation of gd extension
+PHP_EXTENSIONS?=gd
 
 # composer
 # Enables "composer update" inside of extension
