@@ -10,10 +10,10 @@ endif
 EXTENSION=qrlite
 
 # docker images
-MW_VERSION?=1.35
-PHP_VERSION?=7.4
+MW_VERSION?=1.39
+PHP_VERSION?=8.1
 DB_TYPE?=mysql
-DB_IMAGE?="mysql:5.7"
+DB_IMAGE?="mysql:8"
 
 # extensions
 # Enables installation of apt packages for gd extension
@@ -28,8 +28,7 @@ COMPOSER_EXT?=true
 
 # nodejs
 # Enables node.js related tests and "npm install"
-# NODE_JS?=true
-# Note: activate NODE_JS together with dropping MW 1.35 (requires Node >= 14)
+NODE_JS?=true
 
 # check for build dir and git submodule init if it does not exist
 include build/Makefile
