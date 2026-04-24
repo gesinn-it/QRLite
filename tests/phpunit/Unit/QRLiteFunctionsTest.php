@@ -7,40 +7,70 @@ namespace MediaWiki\Extension\QRLite\Tests\Unit;
 use MediaWiki\Extension\QRLite\QRLiteFunctions;
 use MediaWikiIntegrationTestCase;
 
+/**
+ * @covers \MediaWiki\Extension\QRLite\QRLiteFunctions
+ */
 class QRLiteFunctionsTest extends MediaWikiIntegrationTestCase {
 
-	/**
-	 * Test the generateQRCode function with SVG format.
-	 * @covers \MediaWiki\Extension\QRLite\QRLiteFunctions::generateQRCode
-	 * @return string HTML for display of the QR code.
-	 */
 	public function testGenerateSvgQRCode() {
-		$params = [
-			'prefix' => 'TestSVG',
-			'format' => 'svg',
-		];
-
-		$html = QRLiteFunctions::generateQRCode( $params );
+		$html = QRLiteFunctions::generateQRCode( [ 'prefix' => 'TestSVG', 'format' => 'svg' ] );
 
 		$this->assertStringContainsString( '<span class="svg-container"', $html );
 		$this->assertStringContainsString( '<svg', $html );
 	}
 
-	/**
-	 * Test the generateQRCode function with PNG format (default).
-	 * @covers \MediaWiki\Extension\QRLite\QRLiteFunctions::generateQRCode
-	 */
 	public function testGeneratePngQRCode() {
-		$params = [
-			'prefix' => 'TestPNG',
-			'format' => 'png',
-		];
+		$html = QRLiteFunctions::generateQRCode( [ 'prefix' => 'TestPNG', 'format' => 'png' ] );
 
-		$html = QRLiteFunctions::generateQRCode( $params );
-
-		// Ovde očekujemo <img> tag, ne <svg>
 		$this->assertStringContainsString( '<img', $html );
 		$this->assertStringContainsString( 'src="data:image/png;base64', $html );
 		$this->assertStringContainsString( 'title="TestPNG"', $html );
+	}
+
+	public function testDefaultFormatIsPng() {
+		$html = QRLiteFunctions::generateQRCode( [ 'prefix' => 'TestDefault' ] );
+
+		$this->assertStringContainsString( '<img', $html );
+	}
+
+	public function testEccLevelLow() {
+		$html = QRLiteFunctions::generateQRCode( [ 'prefix' => 'TestEccLow', 'ecc' => '1' ] );
+
+		$this->assertStringContainsString( 'qrlite-result', $html );
+	}
+
+	public function testEccLevelQuartile() {
+		$html = QRLiteFunctions::generateQRCode( [ 'prefix' => 'TestEccQuartile', 'ecc' => '3' ] );
+
+		$this->assertStringContainsString( 'qrlite-result', $html );
+	}
+
+	public function testEccLevelHigh() {
+		$html = QRLiteFunctions::generateQRCode( [ 'prefix' => 'TestEccHigh', 'ecc' => '4' ] );
+
+		$this->assertStringContainsString( 'qrlite-result', $html );
+	}
+
+	public function testCustomSizeAndMargin() {
+		$html = QRLiteFunctions::generateQRCode( [
+			'prefix' => 'TestSize',
+			'format' => 'svg',
+			'size'   => '4',
+			'margin' => '2',
+		] );
+
+		$this->assertStringContainsString( '<svg', $html );
+	}
+
+	public function testParamGetReturnsDefault() {
+		$this->assertSame( 'fallback', QRLiteFunctions::paramGet( [], 'missing', 'fallback' ) );
+	}
+
+	public function testParamGetReturnsValue() {
+		$this->assertSame( 'hello', QRLiteFunctions::paramGet( [ 'key' => ' hello ' ], 'key' ) );
+	}
+
+	public function testParamGetReturnsNullWhenNoDefault() {
+		$this->assertNull( QRLiteFunctions::paramGet( [], 'missing' ) );
 	}
 }
