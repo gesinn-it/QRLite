@@ -44,7 +44,8 @@
 		"phpcs-fix": "phpcbf -p",
 		"phpunit": "php ../../tests/phpunit/phpunit.php -c phpunit.xml.dist --testdox",
 		"phpunit-coverage": "php ../../tests/phpunit/phpunit.php -c phpunit.xml.dist --testdox --coverage-text --coverage-html coverage/php --coverage-clover coverage/php/coverage.xml",
-		"minus-x": "minus-x check ."
+		"minus-x": "minus-x check .",
+		"phan": "phan --allow-polyfill-parser"
 	},
 	"config": {
 		"allow-plugins": {
