@@ -10,7 +10,7 @@ use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Endroid\QrCode\Writer\SvgWriter;
 use Exception;
-use Html;
+use MediaWiki\Html\Html;
 
 /**
  * The actual QRLite Functions

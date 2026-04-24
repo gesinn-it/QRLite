@@ -61,7 +61,7 @@ class QRLiteHooks implements ParserFirstCallInitHook {
 
 		foreach ( $options as $option ) {
 			$pair = explode( '=', $option, 2 );
-			if ( count( $pair ) == 2 ) {
+			if ( count( $pair ) === 2 ) {
 				$name = trim( $pair[0] );
 				$value = trim( $pair[1] );
 				$results[$name] = $value;
