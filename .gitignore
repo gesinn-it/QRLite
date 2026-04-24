@@ -2,6 +2,7 @@
 .idea/
 vendor/
 node_modules/
+build/coverage/
 
 ## File based ignores
 composer.phar

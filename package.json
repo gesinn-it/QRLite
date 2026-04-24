@@ -4,7 +4,8 @@
 		"lint:js": "eslint --cache .",
 		"lint:css": "stylelint --allow-empty-input '**/*.less'",
 		"lint:i18n": "banana-checker i18n/",
-		"test": "npm -s run lint:css && npm -s run lint:js && npm -s run lint:i18n"
+		"test": "npm -s run lint:css && npm -s run lint:js && npm -s run lint:i18n",
+		"test-coverage": "npm -s run test"
 	},
 	"devDependencies": {
 		"eslint-config-wikimedia": "0.22.1",

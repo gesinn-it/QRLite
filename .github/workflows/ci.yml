@@ -27,7 +27,7 @@ jobs:
             php_version: 8.2
             database_type: mysql
             database_image: "mysql:8"
-            coverage: false
+            coverage: true
             experimental: false
           - mediawiki_version: '1.44'
             php_version: 8.3
@@ -41,6 +41,7 @@ jobs:
       PHP_VERSION: ${{ matrix.php_version }}
       DB_TYPE: ${{ matrix.database_type }}
       DB_IMAGE: ${{ matrix.database_image }}
+      NODE_JS: ${{ matrix.coverage && 'true' || '' }}
 
       
     steps:
@@ -56,13 +57,17 @@ jobs:
         run: make ci
         if: matrix.coverage == false
 
+      - name: Run Phan static analysis
+        run: make install composer-phan
+        if: matrix.coverage == true
+
       - name: Run tests with coverage
         run: make ci-coverage
         if: matrix.coverage == true
 
       - name: Upload code coverage
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: coverage/php/coverage.xml
+          files: build/coverage/php/coverage.xml
         if: matrix.coverage == true

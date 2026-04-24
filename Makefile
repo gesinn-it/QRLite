@@ -33,6 +33,11 @@ NODE_JS?=true
 # check for build dir and git submodule init if it does not exist
 include build/Makefile
 
+# QRLite has no JavaScript source files; npm-test-coverage is a no-op
+.PHONY: npm-test-coverage
+npm-test-coverage: .init
+	@echo "Skipping npm-test-coverage: QRLite has no JavaScript source files"
+
 .PHONY: composer-phan
 composer-phan: .init ## Run Phan static analysis
 	$(compose-exec-wiki) bash -c "cd $(EXTENSION_FOLDER) && composer phan $(COMPOSER_PARAMS)"
