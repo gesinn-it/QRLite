@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace MediaWiki\Extension\QRLite;
 
 use MediaWiki\Hook\ParserFirstCallInitHook;
@@ -17,14 +19,11 @@ class QRLiteHooks implements ParserFirstCallInitHook {
 	 *
 	 * See also http://www.mediawiki.org/wiki/Manual:Parser_functions
 	 *
-	 * @param Parser $parser Parser object being initialised
-	 * @return bool|void True or no return value to continue or false to abort
+	 * @param \Parser $parser Parser object being initialised
 	 */
-	public function onParserFirstCallInit( $parser ) {
+	public function onParserFirstCallInit( $parser ): void {
 		// Register parser functions
 		$parser->setFunctionHook( 'qrlite', [ $this, 'qrliteFunctionHook' ] );
-
-		return true;
 	}
 
 	/**
@@ -35,7 +34,7 @@ class QRLiteHooks implements ParserFirstCallInitHook {
 	 *
 	 * @return array
 	 */
-	public function qrliteFunctionHook( $parser, $main ) {
+	public function qrliteFunctionHook( \Parser $parser, string $main ): array {
 		$args = array_slice( func_get_args(), 2 );
 		$params = $this->extractOptions( $args );
 
@@ -57,7 +56,7 @@ class QRLiteHooks implements ParserFirstCallInitHook {
 	 * @param array $options
 	 * @return array $results
 	 */
-	private function extractOptions( array $options ) {
+	private function extractOptions( array $options ): array {
 		$results = [];
 
 		foreach ( $options as $option ) {
