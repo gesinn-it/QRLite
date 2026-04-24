@@ -8,13 +8,14 @@
 	},
 	"devDependencies": {
 		"eslint-config-wikimedia": "0.22.1",
-			"grunt": "1.6.2",
+		"grunt": "1.6.2",
 		"grunt-banana-checker": "0.10.0",
 		"grunt-eslint": "24.0.0",
 		"grunt-stylelint": "0.17.0",
 		"stylelint-config-wikimedia": "0.13.0"
 	},
 	"eslintIgnore": [
-		"vendor/**"
+		"vendor/**",
+		"build/**"
 	]
 }
