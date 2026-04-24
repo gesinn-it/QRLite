@@ -1,0 +1,38 @@
+include::docs/attributes.adoc[]
+= {project_name}
+
+image:https://github.com/gesinn-it/QRLite/actions/workflows/ci.yml/badge.svg[CI,link=https://github.com/gesinn-it/QRLite/actions/workflows/ci.yml]
+
+QRLite is a MediaWiki extension that generates QR Codes in SVG or PNG format on-the-fly.
+The extension is lightweight: it does not upload or manage images within MediaWiki.
+
+== Documentation
+
+For documentation see https://www.mediawiki.org/wiki/Extension:QRLite[mediawiki.org/wiki/Extension:QRLite].
+
+== Built With
+
+* https://sourceforge.net/projects/phpqrcode/[PHP QR Code] — Create QR Codes in PHP
+
+== Testing
+
+Local testing and CI are supported by Docker and Make:
+
+[source,console]
+----
+make ci
+----
+
+== Author(s)
+
+* The https://gesinn.it[*gesinn*.it] team
+* and https://github.com/gesinn-it/QRLite/graphs/contributors[others]
+
+include::docs/gesinn-it-docs-master-pub/sections/universal/semver-policy.adoc[]
+
+== Contributing
+
+See link:docs/CONTRIBUTING.adoc[Contributing Guidelines].
+
+---
+This extension is part of https://semantic.wiki/core[*semantic::core*] - Enterprise Class MediaWiki distribution.
