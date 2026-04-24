@@ -10,7 +10,6 @@ use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Endroid\QrCode\Writer\SvgWriter;
 use Exception;
-use MediaWiki\Html\Html;
 
 /**
  * The actual QRLite Functions
@@ -28,9 +27,16 @@ class QRLiteFunctions {
 	 * @return string HTML for display of the QR code.
 	 */
 	public static function generateQRCode( array $params = [] ): string {
+		// MediaWiki\Html\Html was introduced in MW 1.40; the global Html alias was removed in MW 1.44.
+		// This shim resolves the correct class for all supported versions (>= 1.39).
+		$htmlClass = class_exists( \MediaWiki\Html\Html::class )
+			? \MediaWiki\Html\Html::class
+			: \Html::class;
+
 		// Dependency check.
 		if ( !class_exists( QrCode::class ) ) {
-			return Html::errorBox( 'QRLite error: QrCode class not found, you may need to run "composer install".' );
+			$msg = 'QRLite error: QrCode class not found, you may need to run "composer install".';
+			return $htmlClass::errorBox( $msg );
 		}
 
 		// Defaults and escaping
@@ -71,7 +77,7 @@ class QRLiteFunctions {
 			if ( $format === 'svg' ) {
 				$image = '<span class="svg-container" title="' . $content . '">' . $result->getString() . '</span>';
 			} else {
-				$image = Html::element( 'img', [ 'src' => $result->getDataUri(), 'title' => $content ] );
+				$image = $htmlClass::element( 'img', [ 'src' => $result->getDataUri(), 'title' => $content ] );
 			}
 		} catch ( Exception $e ) {
 			$image = '<span class="error-message">' . $e->getMessage() . '</span>';

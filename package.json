@@ -17,6 +17,7 @@
 	},
 	"eslintIgnore": [
 		"vendor/**",
-		"build/**"
+		"build/**",
+		"coverage/**"
 	]
 }
