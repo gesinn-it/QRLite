@@ -13,7 +13,7 @@ For documentation see https://www.mediawiki.org/wiki/Extension:QRLite[mediawiki.
 
 == Built With
 
-* https://sourceforge.net/projects/phpqrcode/[PHP QR Code] — Create QR Codes in PHP
+* https://github.com/endroid/qr-code[endroid/qr-code] — Create QR Codes in PHP
 
 == Testing
 
