@@ -4,10 +4,8 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extension\QRLite;
 
-use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
-use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
-use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelMedium;
-use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelQuartile;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Endroid\QrCode\Writer\SvgWriter;
@@ -46,21 +44,24 @@ class QRLiteFunctions {
 		$ecc = (int)self::paramGet( $params, 'ecc', 2 );
 
 		if ( $ecc === 1 ) {
-			$eccLevel = new ErrorCorrectionLevelLow();
+			$eccLevel = ErrorCorrectionLevel::Low;
 		} elseif ( $ecc === 3 ) {
-			$eccLevel = new ErrorCorrectionLevelQuartile();
+			$eccLevel = ErrorCorrectionLevel::Quartile;
 		} elseif ( $ecc === 4 ) {
-			$eccLevel = new ErrorCorrectionLevelHigh();
+			$eccLevel = ErrorCorrectionLevel::High;
 		} else {
-			$eccLevel = new ErrorCorrectionLevelMedium();
+			$eccLevel = ErrorCorrectionLevel::Medium;
 		}
 
 		$image = '';
 		try {
-			$qrCode = new QrCode( $content );
-			$qrCode->setSize( (int)$size * 30 );
-			$qrCode->setMargin( (int)$margin );
-			$qrCode->setErrorCorrectionLevel( $eccLevel );
+			$qrCode = new QrCode(
+				data: $content,
+				encoding: new Encoding( 'UTF-8' ),
+				errorCorrectionLevel: $eccLevel,
+				size: (int)$size * 30,
+				margin: (int)$margin,
+			);
 			$writer = $format === 'svg' ? new SvgWriter() : new PngWriter();
 			$writerOptions = [
 				SvgWriter::WRITER_OPTION_EXCLUDE_XML_DECLARATION => true
