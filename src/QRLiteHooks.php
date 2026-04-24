@@ -8,9 +8,6 @@ use MediaWiki\Hook\ParserFirstCallInitHook;
 
 /**
  * Hooks for QRLite extension
- *
- * @file
- * @ingroup Extensions
  */
 class QRLiteHooks implements ParserFirstCallInitHook {
 

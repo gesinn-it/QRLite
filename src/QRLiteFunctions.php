@@ -16,9 +16,6 @@ use Exception;
  *
  * They can be used in a programmatic way through this class
  * Use the static getId function as the main entry point
- *
- * @file
- * @ingroup Extensions
  */
 class QRLiteFunctions {
 
@@ -49,15 +46,12 @@ class QRLiteFunctions {
 
 		$ecc = (int)self::paramGet( $params, 'ecc', 2 );
 
-		if ( $ecc === 1 ) {
-			$eccLevel = ErrorCorrectionLevel::Low;
-		} elseif ( $ecc === 3 ) {
-			$eccLevel = ErrorCorrectionLevel::Quartile;
-		} elseif ( $ecc === 4 ) {
-			$eccLevel = ErrorCorrectionLevel::High;
-		} else {
-			$eccLevel = ErrorCorrectionLevel::Medium;
-		}
+		$eccLevel = match ( $ecc ) {
+			1 => ErrorCorrectionLevel::Low,
+			3 => ErrorCorrectionLevel::Quartile,
+			4 => ErrorCorrectionLevel::High,
+			default => ErrorCorrectionLevel::Medium,
+		};
 
 		$image = '';
 		try {
