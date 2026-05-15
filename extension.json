@@ -16,12 +16,16 @@
 		"MediaWiki\\Extension\\QRLite\\": "./src/"
 	},
 	"ExtensionMessagesFiles": {
-		"QRLiteMagic": "QRLite.i18n.magic.php"
+		"QRLiteMagic": "QRLite.i18n.magic.php",
+		"QRLiteAlias": "QRLite.i18n.alias.php"
 	},
 	"MessagesDirs": {
 		"QRLite": [
 			"i18n"
 		]
+	},
+	"SpecialPages": {
+		"QRCodes": "MediaWiki\\Extension\\QRLite\\SpecialQRCodes"
 	},
 	"Hooks": {
 		"ParserFirstCallInit": "QRLite"

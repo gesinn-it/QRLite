@@ -4,5 +4,10 @@
 			"Fannon"
 		]
 	},
-	"qrlite-desc": "{{desc|name=QRLite|url=https://www.mediawiki.org/wiki/Extension:QRLite}}"
+	"qrlite-desc": "{{desc|name=QRLite|url=https://www.mediawiki.org/wiki/Extension:QRLite}}",
+	"qrcodes": "Title for the special page.",
+	"qrlite-specialpage-url-label": "Form field label.",
+	"qrlite-specialpage-url-help": "Form field help text.",
+	"qrlite-specialpage-size-label": "Form field label.",
+	"qrlite-specialpage-size-help": "Form field help text."
 }
