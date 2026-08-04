@@ -44,9 +44,12 @@
 		"phpcs-fix": "phpcbf -p",
 		"phpunit": [
 			"Composer\\Config::disableProcessTimeout",
-			"bash -c 'cd ${MW_INSTALL_PATH:-../..} && { [ -f tests/phpunit/generatePHPUnitConfig.php ] && { php tests/phpunit/generatePHPUnitConfig.php >/dev/null 2>&1 || true; [ -f phpunit.xml ] || printf \"%s\" \"<phpunit><!-- generatePHPUnitConfig --></phpunit>\" > phpunit.xml; } || true; } && vendor/bin/phpunit -c extensions/QRLite/phpunit.xml.dist --bootstrap tests/phpunit/bootstrap.php --testdox'"
+			"bash -c 'extDir=$(pwd) && cd ${MW_INSTALL_PATH:-../..} && { [ -f tests/phpunit/generatePHPUnitConfig.php ] && { php tests/phpunit/generatePHPUnitConfig.php >/dev/null 2>&1 || true; [ -f phpunit.xml ] || printf \"%s\" \"<phpunit><!-- generatePHPUnitConfig --></phpunit>\" > phpunit.xml; } || true; } && MEDIAWIKI_HAS_INTEGRATION_TESTS=1 vendor/bin/phpunit -c \"$extDir/phpunit.xml.dist\" --bootstrap tests/phpunit/bootstrap.php --testdox'"
 		],
-		"phpunit-coverage": "@phpunit --coverage-text --coverage-html extensions/QRLite/coverage/php --coverage-clover extensions/QRLite/coverage/php/coverage.xml",
+		"phpunit-coverage": [
+			"Composer\\Config::disableProcessTimeout",
+			"bash -c 'extDir=$(pwd) && cd ${MW_INSTALL_PATH:-../..} && { [ -f tests/phpunit/generatePHPUnitConfig.php ] && { php tests/phpunit/generatePHPUnitConfig.php >/dev/null 2>&1 || true; [ -f phpunit.xml ] || printf \"%s\" \"<phpunit><!-- generatePHPUnitConfig --></phpunit>\" > phpunit.xml; } || true; } && MEDIAWIKI_HAS_INTEGRATION_TESTS=1 vendor/bin/phpunit -c \"$extDir/phpunit.xml.dist\" --bootstrap tests/phpunit/bootstrap.php --testdox --coverage-text --coverage-html \"$extDir/coverage/php\" --coverage-clover \"$extDir/coverage/php/coverage.xml\"'"
+		],
 		"minus-x": "minus-x check .",
 		"phan": "phan --allow-polyfill-parser"
 	},
