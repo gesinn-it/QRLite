@@ -42,8 +42,11 @@
 		"lint": "parallel-lint . --exclude vendor --exclude node_modules",
 		"phpcs": "phpcs -ps",
 		"phpcs-fix": "phpcbf -p",
-		"phpunit": "php ../../tests/phpunit/phpunit.php -c phpunit.xml.dist --testdox",
-		"phpunit-coverage": "php ../../tests/phpunit/phpunit.php -c phpunit.xml.dist --testdox --coverage-text --coverage-html coverage/php --coverage-clover coverage/php/coverage.xml",
+		"phpunit": [
+			"Composer\\Config::disableProcessTimeout",
+			"bash -c 'cd ${MW_INSTALL_PATH:-../..} && { [ -f tests/phpunit/generatePHPUnitConfig.php ] && { php tests/phpunit/generatePHPUnitConfig.php >/dev/null 2>&1 || true; [ -f phpunit.xml ] || printf \"%s\" \"<phpunit><!-- generatePHPUnitConfig --></phpunit>\" > phpunit.xml; } || true; } && vendor/bin/phpunit -c extensions/QRLite/phpunit.xml.dist --bootstrap tests/phpunit/bootstrap.php --testdox'"
+		],
+		"phpunit-coverage": "@phpunit --coverage-text --coverage-html extensions/QRLite/coverage/php --coverage-clover extensions/QRLite/coverage/php/coverage.xml",
 		"minus-x": "minus-x check .",
 		"phan": "phan --allow-polyfill-parser"
 	},
