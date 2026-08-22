@@ -3,7 +3,7 @@ export
 # setup for docker-compose-ci build directory
 # delete "build" directory to update docker-compose-ci
 
-ifeq (,$(wildcard ./build/Makefile))
+ifeq (,$(wildcard ./build/))
     $(shell git submodule update --init --remote)
 endif
 

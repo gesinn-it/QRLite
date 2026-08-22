@@ -3,18 +3,21 @@ name: CI
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+      - '**/*.adoc'
   pull_request:
     branches: [ master ]
+    paths-ignore:
+      - '**/*.adoc'
   workflow_dispatch:
 
 jobs:
-
   test:
-
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
 
     strategy:
+      fail-fast: false
       matrix:
         include:
           - mediawiki_version: '1.43'
@@ -35,33 +38,32 @@ jobs:
       PHP_VERSION: ${{ matrix.php_version }}
       DB_TYPE: ${{ matrix.database_type }}
       DB_IMAGE: ${{ matrix.database_image }}
-      NODE_JS: ${{ matrix.coverage && 'true' || '' }}
 
-      
     steps:
-      - name: Checkout
-        uses: actions/checkout@v7
+      - uses: actions/checkout@v7
         with:
           submodules: recursive
-                   
-      - name: Update submodules
-        run: git submodule update --init --remote
-  
-      - name: Run tests
+
+      - name: Run CI
         run: make ci
         if: matrix.coverage == false
 
-      - name: Run Phan static analysis
-        run: make install composer-phan
+      - name: Run CI with coverage
+        run: mkdir -p build/coverage && make ci-coverage
         if: matrix.coverage == true
 
-      - name: Run tests with coverage
-        run: make ci-coverage
+      - name: Upload coverage
         if: matrix.coverage == true
-
-      - name: Upload code coverage
         uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          slug: gesinn-it/QRLite
           files: build/coverage/php/coverage.xml
+          disable_search: true
+
+      - name: Run Phan
         if: matrix.coverage == true
+        run: make composer-phan
+        env:
+          MW_VERSION: ${{ matrix.mediawiki_version }}
+          PHP_VERSION: ${{ matrix.php_version }}
