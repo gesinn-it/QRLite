@@ -1,4 +1,4 @@
-ARG MW_VERSION=1.35
+ARG MW_VERSION=1.39
 FROM gesinn/docker-mediawiki-sqlite:${MW_VERSION}
 
 ENV EXTENSION=QRLite
