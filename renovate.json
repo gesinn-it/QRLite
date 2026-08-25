@@ -2,5 +2,11 @@
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
 	"extends": [ "config:recommended" ],
 	"semanticCommits": "enabled",
-	"packageRules": []
+	"packageRules": [
+		{
+			"matchPackageNames": ["endroid/qr-code"],
+			"allowedVersions": "<6.1.0",
+			"description": "MW 1.43 / PHP 8.3 CI leg caps this at 6.0.x — 6.1.0+ requires PHP >=8.4. See registry.yml verified_max_for (endroid-qr-code)."
+		}
+	]
 }
