@@ -4,12 +4,12 @@
 	"semanticCommits": "enabled",
 	"packageRules": [
 		{
-			"matchPackageNames": ["endroid/qr-code"],
+			"matchPackageNames": [ "endroid/qr-code" ],
 			"allowedVersions": "<6.1.0",
 			"description": "MW 1.43 / PHP 8.3 CI leg caps this at 6.0.x — 6.1.0+ requires PHP >=8.4. See registry.yml verified_max_for (endroid-qr-code)."
 		},
 		{
-			"matchPackageNames": ["grunt-eslint"],
+			"matchPackageNames": [ "grunt-eslint" ],
 			"allowedVersions": "<27.0.0",
 			"description": "Both CI legs' base image runs Node.js v20.19.2, but grunt-eslint 27.0.0 requires Node.js >=22. See registry.yml verified_max_for (grunt-eslint)."
 		}
