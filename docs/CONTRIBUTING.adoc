@@ -66,6 +66,12 @@ They are enforced by `make ci` (lint + phpcs + eslint).
 
 * Encoding: UTF-8 without BOM
 * Line endings: Unix-style LF (not CR+LF)
+** Check the files you touch (`git ls-files --eol <file>`).
+** A violation in a file you touch is corrected in a commit of its own that changes nothing
+   but the line endings (`chore: normalize line endings in <file>`), made before the actual change.
+** Files you do not touch are left as they are.
+** Generated and vendored files (e.g. bundled `dist/` directories) and files that need CR+LF
+   (e.g. `.bat`) are left as they are.
 * Indentation: tabs, not spaces
 * Maximum line length: 120 characters
 * No trailing whitespace
@@ -413,6 +419,15 @@ Every repository must have a `.eslintrc.json` at root with `"root": true`:
   _(full-DOM queries match stale or foreign nodes, break hook-lifecycle isolation, and waste performance by traversing the entire document)_
 * Prefer `$( '<div>' ).text( value )` over `$( '<div>text</div>' )` to avoid XSS
 
+*HTML sinks*
+
+* `.html( value )`, `.append( string )`, `.after( string )` and `$( '<td>' + value + '</td>' )` parse a string as HTML. Use `.text( value )` or build the element: `$( '<td>' ).text( value )`.
+* `OO.ui.HtmlSnippet` is raw HTML. Escape every part before it is put together. To highlight a match, find it in the plain text, escape the three parts (before, match, after) separately and join them.
+* Text that was read from the DOM (`.val()`, `.text()`) is text. Putting it into a sink above again is the typical way a value ends up as markup, for example in a summary line that is built from the values of input fields.
+* Do not decode entities with `$( '<div>' ).html( value ).text()`: parsing the markup starts loading images and runs their handlers, even if the element is never inserted. Decode through the content of a `<template>` element, which is inert: `template.innerHTML = value`, then `template.content.textContent`. A `DOMParser` document drops leading whitespace of the body.
+* `mw.msg()` returns text; use `mw.message( key ).escaped()` where HTML is needed.
+* When you change a file, list the sinks in it and trace each value to its source. Fix the findings in a commit of their own, made before your change.
+
 *MediaWiki APIs*
 
 * Access configuration via `mw.config.get( 'wgFoo' )`, never direct globals
@@ -586,6 +601,14 @@ $xpath = new DomXpath( $dom );
 $input = $xpath->query( '//input[@name="wpFoo"]' )->item( 0 );
 $this->assertNotNull( $input );
 ----
+
+*Testing escaping and sanitization*
+
+For a parser function, tag hook or special page that outputs a value, send a payload through every argument, label and parameter that is rendered, not only the first one, and assert in both directions: the escaped form is present, and the raw payload is not.
+Use an element with an event handler, a quote and angle brackets, for example `<img src=x onerror=alert()>` and `"><svg onload=alert()>`.
+A function that returns `isHTML` skips the sanitizer, so for it a raw payload in the output is the defect, not a test artifact.
+If the function only runs in a namespace (for example the template namespace), run the test on a page in that namespace; otherwise the error branch is tested.
+Do not use a clean static-analysis run as a substitute for this test.
 
 *Testing HookRunner classes with HookRunnerTestBase*
 
@@ -797,7 +820,7 @@ When a test starts failing after upgrading the platform, framework, or a depende
 
 *Running tests*
 
-See the *Execution — Install Dependencies · MediaWiki* and *Execution — Run Tests (PHPUnit) · MediaWiki* reference files loaded by this skill.
+Installing the dependencies and running the tests are described in *Execution — Install Dependencies · MediaWiki* and *Execution — Run Tests (PHPUnit) · MediaWiki*.
 
 '''
 
@@ -813,7 +836,7 @@ host are *not* automatically reflected in a running container.
 
 NOTE: When a `docker-compose.override.yml` with a bind-mount of the extension
 source directory is active (local development setup), `make install` is only
-required at the start of a new session or after dependency changes. For
+required when you start working and after dependency changes. For
 iterative test runs, use `make php-test` or `make dev-test` directly.
 
 [source,console]
@@ -886,7 +909,7 @@ make bash
 
 *Execution — Pre-Commit Gate · MediaWiki*
 
-**Do not commit until the pre-commit gate exits with code 0. If it fails, fix all violations before proceeding.**
+**Do not commit until the pre-commit gate exits with code 0. If it fails, fix all violations first.**
 
 Run the pre-commit gate before every commit:
 
@@ -960,11 +983,18 @@ Guidelines:
 * Use the commit body to explain *why*, not only *what*
 * Scopes should be short, lowercase identifiers (e.g. `api`, `parser`, `smw`, `mediawiki`, `docker`)
 * Use `chore` only for repository maintenance tasks that do not affect runtime behavior, dependencies, CI configuration, or tests
-* Do *not* add a `Co-Authored-By:` trailer or any agent attribution line to the commit message
+* Do *not* add `Co-Authored-By:` trailers or similar attribution lines to the commit message
 
 Changelog:
 
 * After committing a `feat`, `fix`, `deps`, `refactor`, or `docs` change, add a corresponding entry to the `[Unreleased]` section of `CHANGELOG.md` — do not wait until release time.
+
+Issue linking:
+
+* If the commit resolves a GitHub issue, add a footer line to the commit message so GitHub closes the issue itself once the commit reaches the default branch — do not close it manually
+* Use `Closes #123` when the commit completes all work for the issue
+* Use `Refs #123` when the issue is only partly addressed
+* If it is unclear whether all work is done, ask before choosing the keyword
 
 :leveloffset!:
 
